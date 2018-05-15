@@ -53,7 +53,8 @@
     "heroku-postbuild": "npm run build",
     "heroku:bash": "heroku run bash",
     "heroku:logs": "heroku logs",
-    "heroku:logs:tail": "heroku logs -t"
+    "heroku:logs:tail": "heroku logs -t",
+    "example":"next"
   },
   "engines": {
     "node": "~9.x.x"

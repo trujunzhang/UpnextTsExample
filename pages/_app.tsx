@@ -1,5 +1,6 @@
 import App, {Container} from 'next/app'
 import * as React from 'react'
+import {HomeWithRouterView} from "@src/components/lib/home/HomeWithRouterView";
 
 export default class MyApp extends App {
     static async getInitialProps({Component, router, ctx}) {
@@ -19,6 +20,7 @@ export default class MyApp extends App {
         return (
             <Container>
                 <div>
+                    <HomeWithRouterView/>
                     <Component {...pageProps} />
                 </div>
             </Container>

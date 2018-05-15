@@ -29,6 +29,8 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "skipLibCheck": true,
+    // decorators
+    "experimentalDecorators": true,
     "lib": [
       "dom",
       "es2016"
