@@ -1,7 +1,7 @@
 {
-  "name": "nexttypescriptexample",
+  "name": "IEATTA-Web-App",
   "version": "1.0.0",
-  "description": "",
+  "description": "Web app using next.js and typescript",
   "main": "index.js",
   "dependencies": {
     "@types/next": "^2.4.10",
@@ -13,11 +13,63 @@
     "react": "^16.3.2",
     "react-dom": "^16.3.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "*",
+    "tslint": "*",
+    "tslint-config-prettier": "*",
+    "tslint-react": "*",
+    "npm-run-all": "^4.1.2",
+    "npm-scripts-info": "^0.3.6"
+  },
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start"
+    "info": "npm-scripts-info",
+    "fix": "run-s fix:*",
+    "fix:prettier": "prettier --no-semi --single-quote --write '**/*.ts{,x}'",
+    "ts-lint": "tslint -c tslint.json '**/*.{ts,tsx}' -e 'node_modules/**'",
+    "ts-lint:file": "npm run lint:file -- '*.ts' '**/*.ts{,x}'",
+    "lint": "tslint **/*.{ts,tsx} -t verbose",
+    "lint:file": "tslint --project tsconfig.json",
+    "test": "jest --config jest.config.json --silent",
+    "test:watch": "jest --config jest.config.json --watch",
+    "test:debug": "node inspect --harmony ./node_modules/jest-cli/bin/jest.js --runInBand",
+    "analyze": "./node_modules/.bin/cross-env ANALYZE=1 npm run build",
+    "dev-clean": "rm -rf production-server && rm -rf production-cloud",
+    "dev-all": "npm run build && NODE_ENV=development node production-server/server.js -p $PORT",
+    "dev-only": "NODE_ENV=development node production-server/server.js -p $PORT",
+    "dev": "npm run dev-all",
+    "dev-bug": "NODE_ENV=development node  --inspect production-server/server.js -p $PORT",
+    "postbuild": "cp -r static .next/",
+    "clean": "rm -rf .next/",
+    "build": "npm run clean && npm run dev-clean && next build && tsc --project tsconfig.server.json && tsc --project tsconfig.cloud.json",
+    "start": "NODE_ENV=production node production-server/server.js -p $PORT",
+    "test:verbose": "./node_modules/.bin/jest --verbose",
+    "test:coverage": "npm test -- --coverage --no-cache",
+    "test:coverage:view": "npm test -- --coverage --no-cache && open coverage/lcov-report/index.html",
+    "tslint": "./node_modules/.bin/tslint -c tslint.json -p tsconfig.json **/*/*/*.tsx",
+    "deploy": "time npm run deploy:heroku && npm run heroku:logs:tail",
+    "deploy:force": "npm run deploy:heroku:force",
+    "deploy:heroku": "git push heroku $(git rev-parse --abbrev-ref HEAD):master",
+    "deploy:heroku:force": "git push -f heroku $(git rev-parse --abbrev-ref HEAD):master",
+    "heroku-postbuild": "npm run build",
+    "heroku:bash": "heroku run bash",
+    "heroku:logs": "heroku logs",
+    "heroku:logs:tail": "heroku logs -t"
+  },
+  "engines": {
+    "node": "~9.x.x"
+  },
+  "scripts-info": {
+    "info": "Display information about the package scripts",
+    "build": "Clean and rebuild the project",
+    "fix": "Try to automatically fix any linting problems",
+    "test": "Lint and unit test the project",
+    "watch": "Watch and rebuild the project on save, then rerun relevant tests",
+    "cov": "Rebuild, run tests, then create and open the coverage report",
+    "doc": "Generate HTML API documentation and open it in a browser",
+    "doc:json": "Generate API documentation in typedoc JSON format",
+    "version": "Bump package.json version, update CHANGELOG.md, tag release",
+    "reset": "Delete all untracked files and reset the repo to the last commit",
+    "prepare-release": "One-step: clean, build, test, publish docs, and prep a release"
   },
   "author": "",
   "license": "ISC"
