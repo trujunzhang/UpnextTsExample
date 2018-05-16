@@ -17,8 +17,11 @@
       // will enable -> import { ... } from '@src/components'
       // in webpack you need to add -> resolve: { alias: { '@src': PATH_TO_SRC } }
     },
+    "strict": true,
+    "noImplicitAny": false,
     "target": "esnext",
-    "module": "esnext",
+    "module": "commonjs",
+    // enable JSX mode, but "preserve" tells TypeScript to not transform it (we'll use Babel)
     "jsx": "preserve",
     "allowJs": true,
     "moduleResolution": "node",
@@ -29,7 +32,6 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    // decorators
     "experimentalDecorators": true,
     "lib": [
       "dom",
